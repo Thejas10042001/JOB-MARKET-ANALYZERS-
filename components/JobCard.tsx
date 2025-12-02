@@ -7,6 +7,7 @@ interface JobCardProps {
 
 const JobCard: React.FC<JobCardProps> = ({ job }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
   const formatSalary = (min?: number, max?: number) => {
     if (!min && !max) return 'Not specified';
@@ -20,25 +21,62 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
     return `$${minK}k - $${maxK}k/yr`;
   }
 
+  const getLogoUrl = () => {
+    if (job.companyWebsite) {
+      try {
+        const domain = new URL(job.companyWebsite).hostname;
+        return `https://logo.clearbit.com/${domain}`;
+      } catch (e) {
+        // invalid url, fall through
+      }
+    }
+    // Fallback heuristic: remove spaces/special chars and append .com
+    const cleanName = job.company.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+    return `https://logo.clearbit.com/${cleanName}.com`;
+  };
+
   return (
     <div className="border border-gray-200 bg-white rounded-lg p-4 transition-shadow hover:shadow-md flex flex-col h-full">
-      <div className="flex flex-col sm:flex-row justify-between items-start">
-        <div>
-          <h3 className="text-lg font-semibold text-indigo-700 hover:underline">
-            <a href={job.url} target="_blank" rel="noopener noreferrer" title={job.url}>{job.title}</a>
-          </h3>
-          <p className="text-md font-medium text-gray-800">{job.company}</p>
+      <div className="flex items-start">
+        {/* Logo Section */}
+        <div className="flex-shrink-0 mr-4">
+          {!logoError ? (
+            <img 
+              src={getLogoUrl()} 
+              alt={`${job.company} logo`} 
+              className="h-12 w-12 rounded object-contain border border-gray-100 bg-gray-50"
+              onError={() => setLogoError(true)}
+            />
+          ) : (
+            <div className="h-12 w-12 rounded bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-xl border border-indigo-200">
+              {job.company.charAt(0).toUpperCase()}
+            </div>
+          )}
         </div>
-        <div className="mt-2 sm:mt-0 sm:text-right shrink-0">
-          <p className="text-sm text-gray-600">{job.location}</p>
+
+        {/* Header Content */}
+        <div className="flex-grow">
+          <div className="flex flex-col sm:flex-row justify-between items-start">
+            <div>
+              <h3 className="text-lg font-semibold text-indigo-700 hover:underline">
+                <a href={job.url} target="_blank" rel="noopener noreferrer" title={job.url}>{job.title}</a>
+              </h3>
+              <p className="text-md font-medium text-gray-800">{job.company}</p>
+            </div>
+            <div className="mt-2 sm:mt-0 sm:text-right shrink-0">
+              <p className="text-sm text-gray-600">{job.location}</p>
+            </div>
+          </div>
+          
+          <div className="mt-2 flex items-center space-x-4 text-sm text-gray-600">
+             <div className="flex items-center space-x-1">
+                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01" /></svg>
+                 <span>{formatSalary(job.salaryMin, job.salaryMax)}</span>
+             </div>
+          </div>
         </div>
       </div>
-      <div className="mt-3 flex items-center space-x-4 text-sm text-gray-600">
-         <div className="flex items-center space-x-1">
-             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01" /></svg>
-             <span>{formatSalary(job.salaryMin, job.salaryMax)}</span>
-         </div>
-      </div>
+
       <div className="mt-4 flex-grow">
         <p className={`text-sm text-gray-700 ${!isExpanded ? 'line-clamp-3' : ''}`}>
             {job.description}

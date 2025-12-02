@@ -14,6 +14,7 @@ A JSON array of job objects. Each object must have the following properties:
 - "url": The direct, full, and valid string URL to the job posting found via search. This is critical. It must be a real clickable link.
 - "salaryMin": An optional number for the estimated minimum annual salary.
 - "salaryMax": An optional number for the estimated maximum annual salary.
+- "companyWebsite": An optional string. The official website URL of the company (e.g., "https://www.google.com") if found.
 `;
 
 const buildSearchPrompt = (filters: Filters): string => {

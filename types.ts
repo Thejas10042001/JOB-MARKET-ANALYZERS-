@@ -8,6 +8,7 @@ export interface JobListing {
   salaryMax?: number;
   description: string;
   url: string;
+  companyWebsite?: string;
 }
 
 export interface Filters {
