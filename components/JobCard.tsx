@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { JobListing } from '../types';
 
@@ -24,10 +25,14 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
   const getLogoUrl = () => {
     if (job.companyWebsite) {
       try {
-        const domain = new URL(job.companyWebsite).hostname;
+        let urlStr = job.companyWebsite;
+        if (!urlStr.startsWith('http')) {
+            urlStr = `https://${urlStr}`;
+        }
+        const domain = new URL(urlStr).hostname;
         return `https://logo.clearbit.com/${domain}`;
       } catch (e) {
-        // invalid url, fall through
+        // invalid url, fall through to heuristic
       }
     }
     // Fallback heuristic: remove spaces/special chars and append .com
@@ -46,6 +51,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
               alt={`${job.company} logo`} 
               className="h-12 w-12 rounded object-contain border border-gray-100 bg-gray-50"
               onError={() => setLogoError(true)}
+              loading="lazy"
             />
           ) : (
             <div className="h-12 w-12 rounded bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-xl border border-indigo-200">

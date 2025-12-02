@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, Type } from "@google/genai";
 import { TrendDataPoint, JobListing, Filters } from '../types';
 
@@ -60,7 +61,7 @@ export const geminiService = {
          });
 
          const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
-         const jsonText = response.text.trim();
+         const jsonText = response.text ? response.text.trim() : "";
 
          if (!jsonText) {
              console.error('Gemini API returned empty response for real-time jobs.');
@@ -122,7 +123,7 @@ export const geminiService = {
         },
       });
 
-      const jsonText = response.text.trim();
+      const jsonText = response.text ? response.text.trim() : "";
       if (!jsonText) {
         console.error('Gemini API returned empty response text for trend data.');
         return null;
