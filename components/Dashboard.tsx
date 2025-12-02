@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Filters } from '../types';
 
@@ -16,7 +17,23 @@ const Dashboard: React.FC<DashboardProps> = ({
 }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    onFilterChange(prev => ({ ...prev, [name]: value }));
+    
+    if (name === 'location') {
+        const parts = value.split(',').map(part => part.trim());
+        const city = parts[0] || '';
+        const state = parts[1] || '';
+        const country = parts[2] || '';
+        
+        onFilterChange(prev => ({ 
+            ...prev, 
+            location: value,
+            city, 
+            state, 
+            country 
+        }));
+    } else {
+        onFilterChange(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +57,9 @@ const Dashboard: React.FC<DashboardProps> = ({
     onFilterChange({
       keyword: '',
       location: '',
+      city: '',
+      state: '',
+      country: '',
       company: '',
       minSalary: 0,
       maxSalary: 300000,

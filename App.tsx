@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { JobListing, Filters, TrendDataPoint } from './types';
 import { geminiService } from './services/geminiService';
@@ -14,6 +15,9 @@ const App: React.FC = () => {
   const [filters, setFilters] = useState<Filters>({
     keyword: '',
     location: '',
+    city: '',
+    state: '',
+    country: '',
     company: '',
     minSalary: 0,
     maxSalary: 300000,

@@ -21,15 +21,15 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
   }
 
   return (
-    <div className="border border-gray-200 bg-white rounded-lg p-4 transition-shadow hover:shadow-md flex flex-col">
-      <div className="flex flex-col sm:flex-row justify-between">
+    <div className="border border-gray-200 bg-white rounded-lg p-4 transition-shadow hover:shadow-md flex flex-col h-full">
+      <div className="flex flex-col sm:flex-row justify-between items-start">
         <div>
           <h3 className="text-lg font-semibold text-indigo-700 hover:underline">
             <a href={job.url} target="_blank" rel="noopener noreferrer" title={job.url}>{job.title}</a>
           </h3>
           <p className="text-md font-medium text-gray-800">{job.company}</p>
         </div>
-        <div className="mt-2 sm:mt-0 sm:text-right">
+        <div className="mt-2 sm:mt-0 sm:text-right shrink-0">
           <p className="text-sm text-gray-600">{job.location}</p>
         </div>
       </div>
@@ -43,7 +43,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
         <p className={`text-sm text-gray-700 ${!isExpanded ? 'line-clamp-3' : ''}`}>
             {job.description}
         </p>
-        <button onClick={() => setIsExpanded(!isExpanded)} className="text-indigo-600 hover:text-indigo-800 text-sm mt-2 focus:outline-none">
+        <button onClick={() => setIsExpanded(!isExpanded)} className="text-indigo-600 hover:text-indigo-800 text-sm mt-2 focus:outline-none font-medium">
             {isExpanded ? 'Show less' : 'Show more'}
         </button>
       </div>
@@ -53,7 +53,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
             href={job.url} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors w-full sm:w-auto"
         >
             Apply Now
             <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 -mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

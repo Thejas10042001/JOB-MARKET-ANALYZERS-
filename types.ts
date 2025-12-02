@@ -1,3 +1,4 @@
+
 export interface JobListing {
   id: string;
   title: string;
@@ -12,6 +13,9 @@ export interface JobListing {
 export interface Filters {
   keyword: string;
   location: string;
+  city?: string;
+  state?: string;
+  country?: string;
   company: string;
   minSalary: number;
   maxSalary: number;
