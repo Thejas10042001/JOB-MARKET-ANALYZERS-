@@ -1,0 +1,5 @@
+{
+  "name": "Job Market Analyzer",
+  "description": "A web application to analyze and visualize job market data. It features a dashboard to filter jobs, charts for analytics, and a searchable list of job postings.",
+  "requestFramePermissions": []
+}
