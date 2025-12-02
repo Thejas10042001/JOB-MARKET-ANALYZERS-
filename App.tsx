@@ -13,9 +13,7 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<Filters>({
     keyword: '',
-    country: '',
-    state: '',
-    city: '',
+    location: '',
     company: '',
     minSalary: 0,
     maxSalary: 300000,
@@ -76,11 +74,6 @@ const App: React.FC = () => {
     return Array.from(roles).sort();
   }, [jobs]);
 
-  const uniqueCountries = useMemo(() => {
-    const countries = new Set(jobs.map(j => j.location.split(', ')[2]).filter(Boolean));
-    return Array.from(countries).sort();
-  }, [jobs]);
-  
   const uniqueCompanies = useMemo(() => {
     const companies = new Set(jobs.map(j => j.company));
     return Array.from(companies).sort();

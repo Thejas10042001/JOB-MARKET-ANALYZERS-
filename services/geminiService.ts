@@ -21,9 +21,11 @@ const buildSearchPrompt = (filters: Filters): string => {
     if (filters.keyword) {
         prompt += ` The job title or keyword is "${filters.keyword}".`;
     }
-    if (filters.city || filters.state || filters.country) {
-        const location = [filters.city, filters.state, filters.country].filter(Boolean).join(', ');
-        prompt += ` The location is near "${location}".`;
+    if (filters.location) {
+        prompt += ` The location is "${filters.location}".`;
+        if (filters.location.toLowerCase().includes('remote')) {
+            prompt += ` Prioritize remote, work-from-home, or telecommute opportunities.`;
+        }
     }
     if (filters.company) {
         prompt += ` The company is "${filters.company}".`;
@@ -42,7 +44,7 @@ const buildSearchPrompt = (filters: Filters): string => {
 
 export const geminiService = {
   findRealtimeJobs: async (filters: Filters): Promise<{ jobs: JobListing[] | null; sources: any[] }> => {
-     if (!filters.keyword && !filters.city && !filters.company) {
+     if (!filters.keyword && !filters.location && !filters.company) {
         return { jobs: [], sources: [] };
      }
      const prompt = buildSearchPrompt(filters);

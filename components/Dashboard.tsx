@@ -39,9 +39,7 @@ const Dashboard: React.FC<DashboardProps> = ({
   const resetFilters = () => {
     onFilterChange({
       keyword: '',
-      country: '',
-      state: '',
-      city: '',
+      location: '',
       company: '',
       minSalary: 0,
       maxSalary: 300000,
@@ -74,12 +72,12 @@ const Dashboard: React.FC<DashboardProps> = ({
           <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">Location</label>
           <input 
             type="text"
-            name="city" 
+            name="location" 
             id="location" 
-            value={filters.city} 
+            value={filters.location} 
             onChange={handleInputChange} 
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white"
-            placeholder="e.g., San Francisco, CA"
+            placeholder="City, State, Country or Remote"
           />
         </div>
 
