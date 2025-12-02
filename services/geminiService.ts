@@ -11,7 +11,7 @@ A JSON array of job objects. Each object must have the following properties:
 - "company": The string name of the company hiring.
 - "location": The string job location (e.g., 'San Francisco, CA').
 - "description": A string containing a brief summary of the job.
-- "url": The direct, full, and valid string URL to the job posting. This is critical.
+- "url": The direct, full, and valid string URL to the job posting found via search. This is critical. It must be a real clickable link.
 - "salaryMin": An optional number for the estimated minimum annual salary.
 - "salaryMax": An optional number for the estimated maximum annual salary.
 `;
@@ -28,9 +28,14 @@ const buildSearchPrompt = (filters: Filters): string => {
     if (filters.company) {
         prompt += ` The company is "${filters.company}".`;
     }
-    prompt += ` Prioritize major job boards like LinkedIn, Indeed, Glassdoor, and official company career pages.`;
+    prompt += ` Prioritize finding direct application pages on company careers sites or major job boards (like LinkedIn, Indeed, Glassdoor).`;
     prompt += ` Return up to 20 of the most relevant results. For each job, provide a detailed summary in the description field.`;
-    prompt += ` It is absolutely critical that the response is ONLY the JSON array, with no other text or explanation. The 'url' field in each object must contain the direct, full, and valid URL to the job application page. Do not use placeholder links or links to general search results.`;
+    
+    // Strengthened instruction for URL
+    prompt += ` CRITICAL: The 'url' field MUST be the actual, clickable link to the specific job posting found in the search results.`;
+    prompt += ` Do NOT generate fake URLs, placeholders like '#', or generic homepages. If a direct application link is not found, use the specific URL of the job board listing page.`;
+    
+    prompt += ` The response must be ONLY the JSON array, with no other text or explanation.`;
     prompt += ` The output must be a valid JSON array of objects, structured like this: ${jobListingSchemaDescription}`;
     return prompt;
 };

@@ -21,11 +21,11 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
   }
 
   return (
-    <div className="border border-gray-200 bg-white rounded-lg p-4 transition-shadow hover:shadow-md">
+    <div className="border border-gray-200 bg-white rounded-lg p-4 transition-shadow hover:shadow-md flex flex-col">
       <div className="flex flex-col sm:flex-row justify-between">
         <div>
           <h3 className="text-lg font-semibold text-indigo-700 hover:underline">
-            <a href={job.url} target="_blank" rel="noopener noreferrer">{job.title}</a>
+            <a href={job.url} target="_blank" rel="noopener noreferrer" title={job.url}>{job.title}</a>
           </h3>
           <p className="text-md font-medium text-gray-800">{job.company}</p>
         </div>
@@ -39,13 +39,27 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
              <span>{formatSalary(job.salaryMin, job.salaryMax)}</span>
          </div>
       </div>
-      <div className="mt-4">
+      <div className="mt-4 flex-grow">
         <p className={`text-sm text-gray-700 ${!isExpanded ? 'line-clamp-3' : ''}`}>
             {job.description}
         </p>
-        <button onClick={() => setIsExpanded(!isExpanded)} className="text-indigo-600 hover:text-indigo-800 text-sm mt-2">
+        <button onClick={() => setIsExpanded(!isExpanded)} className="text-indigo-600 hover:text-indigo-800 text-sm mt-2 focus:outline-none">
             {isExpanded ? 'Show less' : 'Show more'}
         </button>
+      </div>
+
+      <div className="mt-5 pt-4 border-t border-gray-100 flex justify-end">
+        <a 
+            href={job.url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+        >
+            Apply Now
+            <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 -mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+        </a>
       </div>
     </div>
   );
